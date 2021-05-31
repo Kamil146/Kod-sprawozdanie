@@ -12,20 +12,22 @@ if __name__ == '__main__':
     f = lambda x: 0 * x  # wymuszenie
 
 
-
+    #RECZNE
     #WEZLY, ELEMENTY,n =  fun.DefinicjaGeometrii()
-    # n = np.shape(WEZLY)[0]
+
+
+    #AUTOMATYCZNE
     n = 6
     x_a = 0
     x_b = 6
-    # warunki brzegowe
-    WB = [{"ind": 1, "typ": 'D', "wartosc": 1},
-          {"ind": n, "typ": 'D', "wartosc": 2}]
-    ## lub Automatyczne wygenerowanie geometrii
+
 
     WEZLY, ELEMENTY = fun.AutomatycznaGeometria(x_a, x_b, n)
 
 
+    # warunki brzegowe
+    WB = [{"ind": 1, "typ": 'D', "wartosc": 1},
+          {"ind": n, "typ": 'D', "wartosc": 2}]
 
 
     fun.RysowanieGeometrii(WEZLY, ELEMENTY)
@@ -77,54 +79,54 @@ if __name__ == '__main__':
 
 
 
+    #Uwzglednienie warunkow brzegowych
 
-    #UWZGLEDNIENIE WARUNKOW BRZEGOWYCH
-    if WB[0]['typ'] == 'D'and WB[1]['typ'] == 'D' :
-        ind_wezla_pocz = WB[0]['ind']
-        ind_wezla_konc = WB[1]['ind']
-        wart_war_brzeg_pocz = WB[0]['wartosc']
-        wart_war_brzeg_konc = WB[1]['wartosc']
-
-        iwp_p = ind_wezla_pocz - 1
-        iwp_k = ind_wezla_konc -1
-        A=np.delete(A,[iwp_p,iwp_k],0)
-
-        b = np.delete(b,[iwp_p,iwp_k], 0)
-        wb=np.shape(b)[0]
-        for i in np.arange(0,wb):
-            b[i]=b[i]-A[i,iwp_p]*wart_war_brzeg_pocz
-        for j in np.arange(0,wb):
-            b[j]=b[j]-A[j,iwp_k]*wart_war_brzeg_konc
-        A = np.delete(A, [iwp_p, iwp_k], 1)
-
-
-    # if WB[0]['typ'] == 'D':
-    #     ind_wezla = WB[0]['ind']
-    #     wart_war_brzeg = WB[0]['wartosc']
+    # if WB[0]['typ'] == 'D'and WB[1]['typ'] == 'D' :
+    #     ind_wezla_pocz = WB[0]['ind']
+    #     ind_wezla_konc = WB[1]['ind']
+    #     wart_war_brzeg_pocz = WB[0]['wartosc']
+    #     wart_war_brzeg_konc = WB[1]['wartosc']
     #
-    #     iwp = ind_wezla - 1
+    #     iwp_p = ind_wezla_pocz - 1
+    #     iwp_k = ind_wezla_konc -1
+    #     A=np.delete(A,[iwp_p,iwp_k],0)
     #
-    #     WZMACNIACZ = 10 ** 14
-    #
-    #     b[iwp] = A[iwp, iwp] * WZMACNIACZ * wart_war_brzeg
-    #     A[iwp, iwp] = A[iwp, iwp] * WZMACNIACZ
-    #
-    # if WB[1]['typ'] == 'D':
-    #     ind_wezla = WB[1]['ind']
-    #     wart_war_brzeg = WB[1]['wartosc']
-    #
-    #     iwp = ind_wezla - 1
-    #
-    #     WZMACNIACZ = 10 ** 14
-    #
-    #     b[iwp] = A[iwp, iwp] * WZMACNIACZ * wart_war_brzeg
-    #     A[iwp, iwp] = A[iwp, iwp] * WZMACNIACZ
+    #     b = np.delete(b,[iwp_p,iwp_k], 0)
+    #     wb=np.shape(b)[0]
+    #     for i in np.arange(0,wb):
+    #         b[i]=b[i]-A[i,iwp_p]*wart_war_brzeg_pocz
+    #     for j in np.arange(0,wb):
+    #         b[j]=b[j]-A[j,iwp_k]*wart_war_brzeg_konc
+    #     A = np.delete(A, [iwp_p, iwp_k], 1)
+
+
+    if WB[0]['typ'] == 'D':
+        ind_wezla = WB[0]['ind']
+        wart_war_brzeg = WB[0]['wartosc']
+
+        iwp = ind_wezla - 1
+
+        WZMACNIACZ = 10 ** 14
+
+        b[iwp] = A[iwp, iwp] * WZMACNIACZ * wart_war_brzeg
+        A[iwp, iwp] = A[iwp, iwp] * WZMACNIACZ
+
+    if WB[1]['typ'] == 'D':
+        ind_wezla = WB[1]['ind']
+        wart_war_brzeg = WB[1]['wartosc']
+
+        iwp = ind_wezla - 1
+
+        WZMACNIACZ = 10 ** 14
+
+        b[iwp] = A[iwp, iwp] * WZMACNIACZ * wart_war_brzeg
+        A[iwp, iwp] = A[iwp, iwp] * WZMACNIACZ
 
 
 
-    # Rozwiazanie ukl row lin
+    # Rozwiazanie
 
     u = np.linalg.solve(A, b)
-    u=np.vstack(([wart_war_brzeg_pocz],u,[wart_war_brzeg_konc])) #przy drugim sposobie musimy uwzglednic
+    #u=np.vstack(([wart_war_brzeg_pocz],u,[wart_war_brzeg_konc])) #przy drugim sposobie musimy uwzglednic
     print(u)
     fun.Rozwiazanie(WEZLY, ELEMENTY,u)

@@ -19,10 +19,10 @@ def AutomatycznaGeometria(p,k,n):
     # k - koniec przedzialu
     # n - liczba wezlow
     tmp = (k-p) / (n-1) # odległośc pomiedzy dwoma wezlami
-    matrix = np.array([1,p]) # zapisujemy pierwszy wezel - pierwszz kolumna indeksy, druga pozycja wezla
+    matrix = np.array([1,p]) # zapisujemy pierwszy wezel - pierwsza kolumna indeksy, druga pozycja wezla
     matrix2 = np.array([1,1,2]) # zapisujemy elementy - pierwsza indeks elementu, kolejna poczatek i koniec
 
-    for i in range(1, n, 1): # start 1, koniec n , krok 1 - dodajemy nowe wiersza, gdzie bedzie indeks (i+1) oraz wspolrzedna wezla
+    for i in range(1, n, 1):
         matrix = np.block([
             [matrix],
             [i+1, i * tmp + p],
@@ -51,12 +51,7 @@ def RysowanieGeometrii(wezly,elementy):
 
 
 def Aij(df_i, df_j, c, f_i, f_j):
-    '''
-    Parametry :
-    df_i , df_j - pochodne funkcji ksztaltu zwiazanych z i-tym oraz j- tym wezlem
-    Zwraca :
-    wyrazenie lambda bedace funkcja podcalkowa A_ij
-    '''
+
 
     f_pod = lambda x: -df_i(x)*df_j(x) + c*f_i(x)*f_j(x)
 
@@ -95,7 +90,7 @@ def fBazowe(n):
 def Rozwiazanie(wezly, elementy, u):
 
     x = wezly[:, 1]
-    plt.plot(x, u, 'm*')
+    plt.plot(x, u, 'ro')
     RysowanieGeometrii(wezly, elementy)
 
 
